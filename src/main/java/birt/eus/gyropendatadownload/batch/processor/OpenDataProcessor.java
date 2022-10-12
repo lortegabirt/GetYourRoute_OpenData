@@ -1,7 +1,7 @@
 package birt.eus.gyropendatadownload.batch.processor;
 
 
-import birt.eus.gyropendatadownload.batch.processor.mapper.OpenDataMapper;
+import birt.eus.gyropendatadownload.domain.OpenDataMapper;
 import birt.eus.gyropendatadownload.domain.MapFeature;
 import birt.eus.gyropendatadownload.domain.OpenDataRaw;
 import lombok.RequiredArgsConstructor;

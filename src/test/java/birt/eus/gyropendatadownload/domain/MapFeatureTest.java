@@ -1,7 +1,6 @@
 package birt.eus.gyropendatadownload.domain;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import birt.eus.gyropendatadownload.domain.document.Restaurant;
 import org.junit.jupiter.api.Test;
 
 class MapFeatureTest {

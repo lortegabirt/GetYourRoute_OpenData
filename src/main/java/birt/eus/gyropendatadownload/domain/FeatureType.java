@@ -1,5 +1,5 @@
 package birt.eus.gyropendatadownload.domain;
 
 public enum FeatureType {
-  RESTAURANT
+  RESTAURANT, ACCOMMODATION, UNDEFINED
 }
