@@ -1,9 +1,8 @@
-package birt.eus.gyropendatadownload.batch.processor.mapper;
+package birt.eus.gyropendatadownload.domain.mapper;
 
+import birt.eus.gyropendatadownload.domain.OpenDataMapper;
 import birt.eus.gyropendatadownload.domain.OpenDataRaw;
-import birt.eus.gyropendatadownload.domain.Restaurant;
-import com.mongodb.client.model.geojson.Point;
-import com.mongodb.client.model.geojson.Position;
+import birt.eus.gyropendatadownload.domain.document.Restaurant;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,9 +11,9 @@ public class RestaurantMapper implements OpenDataMapper<Restaurant> {
   public Restaurant toDocument(OpenDataRaw origin) {
     Restaurant restaurant = new Restaurant();
     restaurant.setId(origin.id());
-    restaurant.setName(origin.properties().get("documentname"));
-    restaurant.setDescription(origin.properties().get("documentdescription"));
-    restaurant.setLocation(new Point(new Position(origin.geometry().coordinates())));
+    restaurant.setName(origin.properties());
+    restaurant.setWeb(origin.properties().get("web"));
+    restaurant.setLocation(origin);
     return restaurant;
   }
 

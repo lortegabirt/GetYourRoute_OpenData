@@ -1,18 +1,30 @@
 package birt.eus.gyropendatadownload.domain;
 
 import com.mongodb.client.model.geojson.Point;
+import com.mongodb.client.model.geojson.Position;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-public interface MapFeature {
-  FeatureType getType();
+import java.util.Map;
 
-  String getName();
+@Getter
+@Setter
+public abstract class MapFeature implements Feature {
 
-  String getDescription();
+  private String name;
+  private Point location;
 
-  Point getLocation();
+  public void setLocation(OpenDataRaw origin) {
+    location = new Point(new Position(origin.geometry().coordinates()));
+  }
 
-  static <T extends MapFeature> String getDocumentName(Class<T> clazz) {
+  public void setName(Map<String, String> properties) {
+    name = properties.get("documentname");
+  }
+
+  public static <T extends MapFeature> String getDocumentName(Class<T> clazz) {
     return clazz.getAnnotation(Document.class).value();
   }
+
 }

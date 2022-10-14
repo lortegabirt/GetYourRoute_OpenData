@@ -1,7 +1,7 @@
 package birt.eus.gyropendatadownload.batch.step;
 
 import birt.eus.gyropendatadownload.batch.processor.OpenDataProcessor;
-import birt.eus.gyropendatadownload.batch.processor.mapper.OpenDataMapper;
+import birt.eus.gyropendatadownload.domain.OpenDataMapper;
 import birt.eus.gyropendatadownload.batch.reader.OpenDataItemReaderFactory;
 import birt.eus.gyropendatadownload.batch.writer.MongoItemWriterFactory;
 import birt.eus.gyropendatadownload.domain.MapFeature;

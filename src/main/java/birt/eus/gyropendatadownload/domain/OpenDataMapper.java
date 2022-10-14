@@ -1,7 +1,4 @@
-package birt.eus.gyropendatadownload.batch.processor.mapper;
-
-import birt.eus.gyropendatadownload.domain.MapFeature;
-import birt.eus.gyropendatadownload.domain.OpenDataRaw;
+package birt.eus.gyropendatadownload.domain;
 
 public interface OpenDataMapper<T extends MapFeature> {
   T toDocument(OpenDataRaw origin);
