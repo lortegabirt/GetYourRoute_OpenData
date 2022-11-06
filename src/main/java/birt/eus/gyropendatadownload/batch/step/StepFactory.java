@@ -37,12 +37,12 @@ public class StepFactory {
     return stepBuilderFactory.get(MapFeature.getDocumentName(clazz))
       .<OpenDataRaw, T>chunk(10)
       .reader(itemReaderFactory.getReader(clazz))
-      .processor(new OpenDataProcessor<>(gettOpenDataMapper(clazz)))
+      .processor(new OpenDataProcessor<>(getOpenDataMapper(clazz)))
       .writer(itemWriterFactory.getWriter(clazz)).build();
   }
 
   @SuppressWarnings("unchecked")
-  private <T extends MapFeature> OpenDataMapper<T> gettOpenDataMapper(Class<T> clazz) {
+  private <T extends MapFeature> OpenDataMapper<T> getOpenDataMapper(Class<T> clazz) {
     return (OpenDataMapper<T>) mapperMap.get(MapFeature.getDocumentName(clazz));
   }
 }
