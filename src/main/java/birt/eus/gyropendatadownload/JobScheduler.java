@@ -19,7 +19,7 @@ public class JobScheduler {
   /**
    * Launch the batch job every day at 00:00
    */
-  @Scheduled(cron = "000?**")
+  @Scheduled(cron = "0 0 0 ? * *")
   public void launchJob() throws Exception {
     jobLauncher.run(job, new JobParametersBuilder().toJobParameters());
   }
