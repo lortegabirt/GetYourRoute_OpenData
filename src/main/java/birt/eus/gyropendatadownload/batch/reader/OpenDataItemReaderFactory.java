@@ -1,6 +1,6 @@
 package birt.eus.gyropendatadownload.batch.reader;
 
-import birt.eus.gyropendatadownload.domain.MapFeature;
+import birt.eus.gyropendatadownload.domain.FeatureType;
 import birt.eus.gyropendatadownload.domain.OpenDataRaw;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +11,6 @@ import org.springframework.batch.item.json.JacksonJsonObjectReader;
 import org.springframework.batch.item.json.JsonItemReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -39,12 +38,11 @@ public class OpenDataItemReaderFactory {
     });
   }
 
-  public <T extends MapFeature> ItemReader<OpenDataRaw> getReader(Class<T> clazz) {
-    String documentName = clazz.getAnnotation(Document.class).value();
-    if (readers.containsKey(documentName)) {
-      return readers.get(documentName);
+  public ItemReader<OpenDataRaw> getReader(FeatureType type) {
+    if (readers.containsKey(type.name())) {
+      return readers.get(type.name());
     }
-    throw new IllegalArgumentException("No reader of type " + documentName + " found");
+    throw new IllegalArgumentException("No reader of type " + type.name() + " found");
   }
 
   @SneakyThrows

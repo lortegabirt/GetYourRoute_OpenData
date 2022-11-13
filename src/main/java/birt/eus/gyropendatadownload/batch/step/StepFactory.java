@@ -1,11 +1,12 @@
 package birt.eus.gyropendatadownload.batch.step;
 
 import birt.eus.gyropendatadownload.batch.processor.OpenDataProcessor;
-import birt.eus.gyropendatadownload.domain.OpenDataMapper;
 import birt.eus.gyropendatadownload.batch.reader.OpenDataItemReaderFactory;
 import birt.eus.gyropendatadownload.batch.writer.MongoItemWriterFactory;
-import birt.eus.gyropendatadownload.domain.MapFeature;
+import birt.eus.gyropendatadownload.domain.FeatureType;
+import birt.eus.gyropendatadownload.domain.OpenDataMapper;
 import birt.eus.gyropendatadownload.domain.OpenDataRaw;
+import birt.eus.gyropendatadownload.domain.document.PointOfInterest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -25,24 +26,23 @@ public class StepFactory {
   private final StepBuilderFactory stepBuilderFactory;
   private final OpenDataItemReaderFactory itemReaderFactory;
   private final MongoItemWriterFactory itemWriterFactory;
-  private final List<OpenDataMapper<?>> mappers;
-  private Map<String, OpenDataMapper<?>> mapperMap;
+  private final List<OpenDataMapper> mappers;
+  private Map<FeatureType, OpenDataMapper> mapperMap;
 
   @PostConstruct
   private void setUpMapperMap() {
-    mapperMap = mappers.stream().collect(Collectors.toMap(OpenDataMapper::getDocumentName, Function.identity()));
+    mapperMap = mappers.stream().collect(Collectors.toMap(OpenDataMapper::getType, Function.identity()));
   }
 
-  public <T extends MapFeature> Step createStep(Class<T> clazz) {
-    return stepBuilderFactory.get(MapFeature.getDocumentName(clazz))
-      .<OpenDataRaw, T>chunk(10)
-      .reader(itemReaderFactory.getReader(clazz))
-      .processor(new OpenDataProcessor<>(getOpenDataMapper(clazz)))
-      .writer(itemWriterFactory.getWriter(clazz)).build();
+  public Step createStep(FeatureType type) {
+    return stepBuilderFactory.get(type.name())
+      .<OpenDataRaw, PointOfInterest>chunk(10)
+      .reader(itemReaderFactory.getReader(type))
+      .processor(new OpenDataProcessor(getOpenDataMapper(type)))
+      .writer(itemWriterFactory.getWriter()).build();
   }
 
-  @SuppressWarnings("unchecked")
-  private <T extends MapFeature> OpenDataMapper<T> getOpenDataMapper(Class<T> clazz) {
-    return (OpenDataMapper<T>) mapperMap.get(MapFeature.getDocumentName(clazz));
+  private OpenDataMapper getOpenDataMapper(FeatureType type) {
+    return mapperMap.get(type);
   }
 }

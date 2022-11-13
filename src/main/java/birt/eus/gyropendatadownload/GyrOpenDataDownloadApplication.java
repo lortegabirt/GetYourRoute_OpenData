@@ -1,8 +1,7 @@
 package birt.eus.gyropendatadownload;
 
 import birt.eus.gyropendatadownload.batch.step.StepFactory;
-import birt.eus.gyropendatadownload.domain.document.Accommodation;
-import birt.eus.gyropendatadownload.domain.document.Restaurant;
+import birt.eus.gyropendatadownload.domain.FeatureType;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -21,8 +20,8 @@ public class GyrOpenDataDownloadApplication {
   @Bean
   public Job mainJob(JobBuilderFactory jobBuilderFactory, StepFactory stepFactory) {
     return jobBuilderFactory.get("getOpenData")
-      .start(stepFactory.createStep(Restaurant.class))
-      .next(stepFactory.createStep(Accommodation.class))
+      .start(stepFactory.createStep(FeatureType.RESTAURANT))
+      .next(stepFactory.createStep(FeatureType.ACCOMMODATION))
       .build();
   }
 }
