@@ -1,27 +1,28 @@
 package birt.eus.gyropendatadownload.domain.mapper;
 
 import birt.eus.gyropendatadownload.domain.OpenDataMapper;
-import birt.eus.gyropendatadownload.domain.document.Accommodation;
 import birt.eus.gyropendatadownload.domain.FeatureType;
 import birt.eus.gyropendatadownload.domain.OpenDataRaw;
+import birt.eus.gyropendatadownload.domain.document.PointOfInterest;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccommodationMapper implements OpenDataMapper<Accommodation> {
+public class AccommodationMapper implements OpenDataMapper {
+
+  @Getter
+  private final FeatureType type = FeatureType.ACCOMMODATION;
+
   @Override
-  public Accommodation toDocument(OpenDataRaw origin) {
-    Accommodation accommodation = new Accommodation();
-    accommodation.setId(origin.id());
+  public PointOfInterest toDocument(OpenDataRaw origin) {
+    PointOfInterest accommodation = new PointOfInterest();
+    accommodation.setId(type + origin.id());
     accommodation.setType(FeatureType.ACCOMMODATION);
-    accommodation.setName(origin.properties());
-    accommodation.setWeb(origin.properties().get("web"));
+    accommodation.setName(origin);
     accommodation.setLocation(origin);
-    accommodation.setSubtype(origin.properties().get("lodgingtype"));
+    accommodation.getProperties().put("web", origin.properties().get("web"));
+    accommodation.getProperties().put("subtype", origin.properties().get("lodgingtype"));
     return accommodation;
   }
 
-  @Override
-  public Class<Accommodation> getMapFeatureClass() {
-    return Accommodation.class;
-  }
 }

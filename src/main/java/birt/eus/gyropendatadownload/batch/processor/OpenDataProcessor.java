@@ -2,18 +2,18 @@ package birt.eus.gyropendatadownload.batch.processor;
 
 
 import birt.eus.gyropendatadownload.domain.OpenDataMapper;
-import birt.eus.gyropendatadownload.domain.MapFeature;
 import birt.eus.gyropendatadownload.domain.OpenDataRaw;
+import birt.eus.gyropendatadownload.domain.document.PointOfInterest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemProcessor;
 
 @RequiredArgsConstructor
-public class OpenDataProcessor<T extends MapFeature> implements ItemProcessor<OpenDataRaw, T> {
+public class OpenDataProcessor implements ItemProcessor<OpenDataRaw, PointOfInterest> {
 
-  private final OpenDataMapper<T> mapper;
+  private final OpenDataMapper mapper;
 
   @Override
-  public T process(OpenDataRaw origin) {
+  public PointOfInterest process(OpenDataRaw origin) {
     return mapper.toDocument(origin);
   }
 

@@ -1,11 +1,8 @@
 package birt.eus.gyropendatadownload.domain;
 
-public interface OpenDataMapper<T extends MapFeature> {
-  T toDocument(OpenDataRaw origin);
+import birt.eus.gyropendatadownload.domain.document.PointOfInterest;
 
-  Class<T> getMapFeatureClass();
-
-  default String getDocumentName() {
-    return MapFeature.getDocumentName(getMapFeatureClass());
-  }
+public interface OpenDataMapper {
+  PointOfInterest toDocument(OpenDataRaw origin);
+  FeatureType getType();
 }

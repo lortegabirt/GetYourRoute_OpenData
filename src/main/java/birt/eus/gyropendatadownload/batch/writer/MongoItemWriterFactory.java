@@ -1,6 +1,6 @@
 package birt.eus.gyropendatadownload.batch.writer;
 
-import birt.eus.gyropendatadownload.domain.MapFeature;
+import birt.eus.gyropendatadownload.domain.document.PointOfInterest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.data.MongoItemWriter;
@@ -14,11 +14,10 @@ public class MongoItemWriterFactory {
 
   private final MongoOperations mongoOperations;
 
-  public <T extends MapFeature> MongoItemWriter<T> getWriter(Class<T> clazz) {
-    String documentName = MapFeature.getDocumentName(clazz);
-    MongoItemWriter<T> writer = new MongoItemWriter<>();
+  public MongoItemWriter<PointOfInterest> getWriter() {
+    MongoItemWriter<PointOfInterest> writer = new MongoItemWriter<>();
     writer.setTemplate(mongoOperations);
-    writer.setCollection(documentName);
+    writer.setCollection(PointOfInterest.getDocumentName());
     return writer;
   }
 
