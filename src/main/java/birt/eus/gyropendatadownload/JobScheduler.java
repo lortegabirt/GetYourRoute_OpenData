@@ -20,7 +20,7 @@ public class JobScheduler {
 
   private final JobLauncher jobLauncher;
   private final Job job;
-  private AtomicInteger jobCounter = new AtomicInteger(0);
+  private final AtomicInteger jobCounter = new AtomicInteger(0);
 
   /**
    * Launch the batch job every day at 00:00
